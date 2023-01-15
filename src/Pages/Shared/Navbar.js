@@ -47,15 +47,13 @@ const Navbar = () => {
           </div>
           <Link to = "/" className="btn btn-primary normal-case text-2xl bg-base-100">
           <div className="w-10 rounded-full">
-          <img src={img} />
+          <img src={img} alt="" />
         </div>
             
             dentalService</Link>
         </div>
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-end hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{menuItems}</ul>
-        </div>
-        <div className="navbar-end">
         </div>
       </div>
     </div>
