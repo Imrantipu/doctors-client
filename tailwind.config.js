@@ -2,17 +2,20 @@
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{html,js}"
   ],
 
   daisyui: {
     themes: [
+      
       {
         mytheme: {
-          primary: "#60e5c6",
-          secondary: "#f6d860",
-          accent: "#37cdbe",
-          neutral: "#3d4451",
-          "base-100": "#ffffff",
+          primary: '#0FCFEC',
+          secondary: '#19D3AE',
+          accent: "#3A4256",
+          neutral: "#3D4451",
+          "base-100": "#FFFFFF",
         },
       },
     ],
