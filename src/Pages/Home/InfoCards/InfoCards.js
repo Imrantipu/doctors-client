@@ -16,14 +16,14 @@ const InfoCards = () => {
         {
             id : 2,
             name : 'Our Location',
-            description : 'Uttara, Dhaka',
+            description : 'Strasse 22,47052 Duisburg',
             icon : marker,
             bgClass : 'bg-accent'
         },
         {
             id : 3,
             name : 'Contact-Us',
-            description : '+8801681310294',
+            description : '+491681310294',
             icon : phone,
             bgClass : 'bg-gradient-to-r from-primary to-secondary'
         }

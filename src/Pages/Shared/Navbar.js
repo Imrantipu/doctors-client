@@ -39,7 +39,21 @@ const Navbar = () => {
     <div>
       <div className="navbar  rounded-xl">
         <div className="navbar-start">
-          <div className="dropdown">
+          
+          <Link
+            to="/"
+            className="btn btn-primary normal-case text-2xl "
+          >
+            <div className="w-10 rounded-full">
+              <img src={img} alt="" />
+            </div>
+            dentalService
+          </Link>
+        </div>
+
+        <div className="navbar-end">
+
+        <div className="dropdown dropdown-end ">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -63,19 +77,15 @@ const Navbar = () => {
               {menuItems}
             </ul>
           </div>
-          <Link
-            to="/"
-            className="btn btn-primary normal-case text-2xl "
-          >
-            <div className="w-10 rounded-full">
-              <img src={img} alt="" />
-            </div>
-            dentalService
-          </Link>
+
+
         </div>
+
         <div className="navbar-end hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{menuItems}</ul>
+          
         </div>
+        
       </div>
     </div>
   );
