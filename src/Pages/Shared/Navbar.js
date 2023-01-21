@@ -29,6 +29,9 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
+        <Link to ="/appointment">Appointment</Link>
+      </li>
+      <li>
       <div>
         <SwitchTheme></SwitchTheme>
       </div>
