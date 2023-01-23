@@ -32,6 +32,12 @@ const Navbar = () => {
         <Link to ="/appointment">Appointment</Link>
       </li>
       <li>
+        <Link to ="/login">Login</Link>
+      </li>
+      <li>
+        <Link to ="/signup">Sign Up</Link>
+      </li>
+      <li>
       <div>
         <SwitchTheme></SwitchTheme>
       </div>

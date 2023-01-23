@@ -12,10 +12,10 @@ const AppoinmentOption = ({appoinmentOption ,setTreatment}) => {
     <p>{slots.length>0 ? slots[0] : "Try another time"}</p>
     <p>{slots.length} {slots.length>1 ? "spaces" : "space"} available</p>
     <div className="card-actions justify-center">
-    <label 
+    <label disabled={slots.length === 0}
     onClick={()=>setTreatment(appoinmentOption)}
     htmlFor="booking-appointment" 
-    className="btn btn-primary bg-gradient-to-r from-primary to-secondary text-white"
+    className="btn btn-primary bg-gradient-to-r from-primary to-secondary text-white "
     >Book Appointment</label>
     </div>
   </div>

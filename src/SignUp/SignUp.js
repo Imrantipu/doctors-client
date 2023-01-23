@@ -2,9 +2,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const SignUp = () => {
   const { register, formState: { errors }, handleSubmit } = useForm();
-  const handleLogin = (data) => {
+  const handleSignUp = (data) => {
     console.log(data);
   };
 
@@ -12,9 +12,22 @@ const Login = () => {
     <div>
       <div className="hero min-h-screen">
         <div className="card  w-96  shadow-2xl ">
-          <h1 className="text-2xl font-bold text-center mt-2">Login</h1>
+          <h1 className="text-2xl font-bold text-center mt-2">Sign Up</h1>
           <div className="card-body">
-            <form onSubmit={handleSubmit(handleLogin)}>
+            <form onSubmit={handleSubmit(handleSignUp)}>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text ">Name</span>
+                </label>
+                <input
+                  {...register("name", 
+                  { required: "Name is required" }
+                  )}
+                  type="text"
+                  className="input input-bordered dark:text-accent"
+                />
+                 {errors.name && <p className='text-red-600'>{errors.name?.message}</p>}
+              </div>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text ">Email</span>
@@ -36,7 +49,8 @@ const Login = () => {
                 <input
                   {...register("password",
                   { required: "Password is required",
-                  minLength: { value: 6, message: 'Password must be 6 characters or longer' }
+                  minLength: { value: 6, message: 'Password must be 6 characters or longer' },
+                  pattern: { value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/, message: 'Password must have uppercase, number and special characters' }
                    })}
                   type="password"
                   className="input input-bordered dark:text-accent"
@@ -50,17 +64,17 @@ const Login = () => {
               <div className="form-control mt-6">
                 <input
                   className="btn btn-accent "
-                  value="Login"
+                  value="Sign Up"
                   type="submit"
                 />
               </div>
               
             </form>
             <p>
-                New to dentalService?{" "}
-                <Link to="/signup" className="text-secondary">
+                Already have an account{" "}
+                <Link to="/login" className="text-secondary">
                   {" "}
-                  Create a new account
+                  Please Login
                 </Link>{" "}
               </p>
               <div className="divider">OR</div>
@@ -74,4 +88,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
