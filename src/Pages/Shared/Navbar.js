@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import img from "../../assets/images/sitelogo.png";
 import SwitchTheme from "../../components/SwitchTheme";
+import { AuthContext } from "../../contexts/AuthProvider";
 
 const Navbar = () => {
+  const { user } = useContext(AuthContext);
   const menuItems = (
     <>
       {/* <li>
@@ -29,18 +31,27 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
-        <Link to ="/appointment">Appointment</Link>
+        <Link to="/appointment">Appointment</Link>
       </li>
+      {user?.uid ? (
+        <li>
+          <Link to="/">Sign Out</Link>
+        </li>
+      ) : (
+        <>
+          <li>
+            <Link to="/login">Sign In</Link>
+          </li>
+          <li>
+            <Link to="/signup">Sign Up</Link>
+          </li>
+        </>
+      )}
+
       <li>
-        <Link to ="/login">Login</Link>
-      </li>
-      <li>
-        <Link to ="/signup">Sign Up</Link>
-      </li>
-      <li>
-      <div>
-        <SwitchTheme></SwitchTheme>
-      </div>
+        <div>
+          <SwitchTheme></SwitchTheme>
+        </div>
       </li>
     </>
   );
@@ -48,11 +59,7 @@ const Navbar = () => {
     <div>
       <div className="navbar  rounded-xl">
         <div className="navbar-start">
-          
-          <Link
-            to="/"
-            className="btn btn-primary normal-case text-2xl "
-          >
+          <Link to="/" className="btn btn-primary normal-case text-2xl ">
             <div className="w-10 rounded-full">
               <img src={img} alt="" />
             </div>
@@ -61,8 +68,7 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-end">
-
-        <div className="dropdown dropdown-end ">
+          <div className="dropdown dropdown-end ">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,15 +92,11 @@ const Navbar = () => {
               {menuItems}
             </ul>
           </div>
-
-
         </div>
 
         <div className="navbar-end hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{menuItems}</ul>
-          
         </div>
-        
       </div>
     </div>
   );
