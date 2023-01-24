@@ -43,9 +43,14 @@ const Navbar = () => {
         <Link to="/appointment">Appointment</Link>
       </li>
       {user?.uid ? (
+        <>
+        <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
         <li>
           <button onClick={handleSignOut}>Sign Out</button>
         </li>
+        </>
       ) : (
         <>
           <li>

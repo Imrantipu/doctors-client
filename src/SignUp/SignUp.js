@@ -1,21 +1,40 @@
 import React, { useContext } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 
 const SignUp = () => {
 
-    const {createUser} = useContext(AuthContext);
+    const {createUser,updateUser} = useContext(AuthContext);
   const { register, formState: { errors }, handleSubmit } = useForm();
+
+const [signUpError,SetSignUpError] = useState("");
   const handleSignUp = (data) => {
+    SetSignUpError("");
     console.log(data);
     createUser(data.email,data.password)
     .then((result) => {
         // Signed in 
         const user = result.user;
         console.log(user);
+        toast.success('user created successfully');
+         const userInfo = {
+          displayName: data.name
+        };
+        updateUser(userInfo)
+        .then(() => {
+          // Profile updated!
+          // ...
+        }).catch((error) => {
+          // An error occurred
+          // ...
+        });
+
       })
       .catch((error) => {
+        SetSignUpError(error.message);
         console.log(error);
       });
   };
@@ -68,9 +87,6 @@ const SignUp = () => {
                   className="input input-bordered dark:text-accent"
                 />
                 {errors.password && <p className='text-red-600'>{errors.password?.message}</p>}
-                <label className="label">
-                  <span className="label-text">Forget Password?</span>
-                </label>
               </div>
 
               <div className="form-control mt-6">
@@ -80,6 +96,8 @@ const SignUp = () => {
                   type="submit"
                 />
               </div>
+
+              { signUpError && <p className="text-red-600">Email already used.</p>}
               
             </form>
             <p>
