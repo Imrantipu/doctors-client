@@ -5,7 +5,16 @@ import SwitchTheme from "../../components/SwitchTheme";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Navbar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleSignOut =() =>{
+       logOut()
+       .then(() => {
+        // Sign-out successful.
+      }).catch((error) => {
+        // An error happened.
+      });
+  }
   const menuItems = (
     <>
       {/* <li>
@@ -35,7 +44,7 @@ const Navbar = () => {
       </li>
       {user?.uid ? (
         <li>
-          <Link to="/">Sign Out</Link>
+          <button onClick={handleSignOut}>Sign Out</button>
         </li>
       ) : (
         <>
