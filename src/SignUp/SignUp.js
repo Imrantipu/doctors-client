@@ -97,7 +97,9 @@ const [signUpError,SetSignUpError] = useState("");
                 />
               </div>
 
+              <div>
               { signUpError && <p className="text-red-600">Email already used.</p>}
+              </div>
               
             </form>
             <p>
