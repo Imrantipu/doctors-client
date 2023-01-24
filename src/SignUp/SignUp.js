@@ -2,12 +2,18 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
+import { GoogleAuthProvider } from 'firebase/auth';
 
 const SignUp = () => {
 
-    const {createUser,updateUser} = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+    const {createUser,updateUser,googleSignIn} = useContext(AuthContext);
+    const googleProvider = new GoogleAuthProvider();
   const { register, formState: { errors }, handleSubmit } = useForm();
 
 const [signUpError,SetSignUpError] = useState("");
@@ -16,28 +22,35 @@ const [signUpError,SetSignUpError] = useState("");
     console.log(data);
     createUser(data.email,data.password)
     .then((result) => {
-        // Signed in 
         const user = result.user;
         console.log(user);
+        navigate(from, {to:"/"}, { replace: true });
         toast.success('user created successfully');
          const userInfo = {
           displayName: data.name
         };
         updateUser(userInfo)
-        .then(() => {
-          // Profile updated!
-          // ...
-        }).catch((error) => {
-          // An error occurred
-          // ...
-        });
-
+        .then(() => {})
+        .catch((error) => {});
       })
       .catch((error) => {
         SetSignUpError(error.message);
-        console.log(error);
       });
   };
+
+  const handleGoogleSignIn = () =>{
+    SetSignUpError("");
+     googleSignIn(googleProvider)
+     .then((result) => {
+       const user = result.user;
+       console.log(user);
+       navigate(from, {to:"/"}, { replace: true });
+     })
+     .catch((error) => {
+      SetSignUpError(error.message);
+     });
+
+}
 
   return (
     <div>
@@ -110,7 +123,7 @@ const [signUpError,SetSignUpError] = useState("");
                 </Link>{" "}
               </p>
               <div className="divider">OR</div>
-              <button className="btn btn-outline ">
+              <button onClick={handleGoogleSignIn} className="btn btn-outline ">
                 CONTINUE WITH GOOGLE
               </button>
           </div>

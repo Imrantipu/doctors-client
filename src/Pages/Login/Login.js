@@ -1,3 +1,4 @@
+import { GoogleAuthProvider } from "firebase/auth";
 import React, { useContext } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,9 +10,10 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-
+  
+  const googleProvider = new GoogleAuthProvider();
   const [signInError, setSignInError] = useState('');
-  const {signIn}= useContext(AuthContext);
+  const {signIn,googleSignIn}= useContext(AuthContext);
   const { register, formState: { errors }, handleSubmit } = useForm();
   const handleLogin = (data) => {
     setSignInError('');
@@ -21,7 +23,7 @@ const Login = () => {
      
       const user = result.user;
         console.log(user);
-        navigate(from, { replace: true });
+        navigate(from, {to:"/"}, { replace: true });
     })
     .catch((error) => {
       console.log(error.message);
@@ -29,6 +31,20 @@ const Login = () => {
     });
   
   };
+
+  const handleGoogleSignIn = () =>{
+         setSignInError("");
+          googleSignIn(googleProvider)
+          .then((result) => {
+            const user = result.user;
+            console.log(user);
+            navigate(from, {to:"/"}, { replace: true });
+          })
+          .catch((error) => {
+            setSignInError(error.message);
+          });
+
+  }
 
   return (
     <div>
@@ -90,7 +106,7 @@ const Login = () => {
                 </Link>{" "}
               </p>
               <div className="divider">OR</div>
-              <button className="btn btn-outline ">
+              <button onClick={handleGoogleSignIn} className="btn btn-outline ">
                 CONTINUE WITH GOOGLE
               </button>
           </div>
