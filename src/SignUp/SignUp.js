@@ -12,7 +12,7 @@ const SignUp = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-    const {createUser,updateUser,googleSignIn} = useContext(AuthContext);
+    const {createUser,updateUser,googleSignIn ,verifyEmail} = useContext(AuthContext);
     const googleProvider = new GoogleAuthProvider();
   const { register, formState: { errors }, handleSubmit } = useForm();
 
@@ -24,13 +24,16 @@ const [signUpError,SetSignUpError] = useState("");
     .then((result) => {
         const user = result.user;
         console.log(user);
+        handleEmailVerification();
         navigate(from, {to:"/"}, { replace: true });
-        toast.success('user created successfully');
+        toast.success('Please verify your email');
          const userInfo = {
           displayName: data.name
         };
         updateUser(userInfo)
-        .then(() => {})
+        .then(() => {
+         
+        })
         .catch((error) => {});
       })
       .catch((error) => {
@@ -49,6 +52,12 @@ const [signUpError,SetSignUpError] = useState("");
      .catch((error) => {
       SetSignUpError(error.message);
      });
+
+}
+
+const handleEmailVerification = () =>{
+  verifyEmail()
+  .then(() => {});
 
 }
 

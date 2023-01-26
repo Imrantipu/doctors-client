@@ -2,6 +2,7 @@ import { GoogleAuthProvider } from "firebase/auth";
 import React, { useContext } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 
@@ -23,7 +24,12 @@ const Login = () => {
      
       const user = result.user;
         console.log(user);
-        navigate(from, {to:"/"}, { replace: true });
+        if(user.emailVerified){
+          navigate(from, {to:"/"}, { replace: true });
+        }
+        else{
+          toast.error("Your email is not verified.Please verify your email address");
+        }
     })
     .catch((error) => {
       console.log(error.message);
