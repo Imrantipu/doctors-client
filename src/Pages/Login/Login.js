@@ -15,7 +15,7 @@ const Login = () => {
   const googleProvider = new GoogleAuthProvider();
   const [signInError, setSignInError] = useState('');
   const {signIn,googleSignIn}= useContext(AuthContext);
-  const { register, formState: { errors }, handleSubmit } = useForm();
+  const { register, formState: { errors }, onBlur, handleSubmit } = useForm();
   const handleLogin = (data) => {
     setSignInError('');
     console.log(data);
@@ -87,7 +87,8 @@ const Login = () => {
                 />
                 {errors.password && <p className='text-red-600'>{errors.password?.message}</p>}
                 <label className="label">
-                  <span className="label-text">Forget Password?</span>
+                  {/* <span className="label-text">Forget Password?</span> */}
+                  <button onBlur={onBlur} className="btn btn-link">Forget Password?</button>
                 </label>
               </div>
 
