@@ -32,7 +32,7 @@ const [signUpError,SetSignUpError] = useState("");
         };
         updateUser(userInfo)
         .then(() => {
-         
+         navigate("/");
         })
         .catch((error) => {});
       })
