@@ -32,7 +32,8 @@ const [signUpError,SetSignUpError] = useState("");
         };
         updateUser(userInfo)
         .then(() => {
-         navigate("/");
+          saveUser(data.name,data.email);
+         
         })
         .catch((error) => {});
       })
@@ -60,6 +61,22 @@ const handleEmailVerification = () =>{
   .then(() => {});
 
 }
+  const saveUser = (name , email)=>{
+    const user = {name,email};
+    fetch("http://localhost:5000/users",{
+
+        method : "POST",
+        headers : {
+          'content-type': 'application/json'
+        },
+        body : JSON.stringify(user)
+    })
+    .then(res => res.json())
+    .then(data =>{
+      navigate("/");
+    })
+      
+  }
 
   return (
     <div>
