@@ -5,12 +5,18 @@ import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 import { GoogleAuthProvider } from 'firebase/auth';
+import useToken from "../hooks/useToken";
 
 const SignUp = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+  const [createdUserEmail, setCreatedUserEmail] = useState('')
+  const [token] = useToken(createdUserEmail);
+    if(token){
+        navigate('/');
+    }
 
     const {createUser,updateUser,googleSignIn ,verifyEmail} = useContext(AuthContext);
     const googleProvider = new GoogleAuthProvider();
@@ -73,9 +79,9 @@ const handleEmailVerification = () =>{
     })
     .then(res => res.json())
     .then(data =>{
-      navigate("/");
-    })
-      
+      setCreatedUserEmail(email);
+     
+    })  
   }
 
   return (
