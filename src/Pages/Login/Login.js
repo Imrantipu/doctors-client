@@ -2,20 +2,29 @@ import { GoogleAuthProvider } from "firebase/auth";
 import React, { useContext } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+// import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
+import useToken from "../../hooks/useToken";
 
 const Login = () => {
-
+  const { register, formState: { errors }, onBlur, handleSubmit } = useForm();
+  const {signIn,googleSignIn}= useContext(AuthContext);
+  const [signInError, setSignInError] = useState('');
+  const [loginUserEmail, setLoginUserEmail] = useState('');
+    const [token] = useToken(loginUserEmail);
+  const googleProvider = new GoogleAuthProvider();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   
-  const googleProvider = new GoogleAuthProvider();
-  const [signInError, setSignInError] = useState('');
-  const {signIn,googleSignIn}= useContext(AuthContext);
-  const { register, formState: { errors }, onBlur, handleSubmit } = useForm();
+  if (token) {
+    navigate(from, {to:"/"}, { replace: true });
+}
+  
+  
+  
+  
   const handleLogin = (data) => {
     setSignInError('');
     console.log(data);
@@ -24,12 +33,13 @@ const Login = () => {
      
       const user = result.user;
         console.log(user);
-        if(user.emailVerified){
-          navigate(from, {to:"/"}, { replace: true });
-        }
-        else{
-          toast.error("Your email is not verified.Please verify your email address");
-        }
+        setLoginUserEmail(data.email);
+        // if(user.emailVerified){
+        //   navigate(from, {to:"/"}, { replace: true });
+        // }
+        // else{
+        //   toast.error("Your email is not verified.Please verify your email address");
+        // }
     })
     .catch((error) => {
       console.log(error.message);

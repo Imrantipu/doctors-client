@@ -5,41 +5,39 @@ import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 import { GoogleAuthProvider } from 'firebase/auth';
-import useToken from "../hooks/useToken";
+// import useToken from "../hooks/useToken";
+import useToken from './../hooks/useToken';
 
 const SignUp = () => {
-
+  const { register, formState: { errors }, handleSubmit } = useForm();
+  const {createUser,updateUser,googleSignIn} = useContext(AuthContext);
+  const [signUpError,SetSignUpError] = useState("");
+  const [createdUserEmail, setCreatedUserEmail] = useState('')
+  const googleProvider = new GoogleAuthProvider();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  const [createdUserEmail, setCreatedUserEmail] = useState('')
   const [token] = useToken(createdUserEmail);
     if(token){
-        navigate('/');
+      navigate(from, {to:"/"}, { replace: true });
     }
 
-    const {createUser,updateUser,googleSignIn ,verifyEmail} = useContext(AuthContext);
-    const googleProvider = new GoogleAuthProvider();
-  const { register, formState: { errors }, handleSubmit } = useForm();
-
-const [signUpError,SetSignUpError] = useState("");
   const handleSignUp = (data) => {
     SetSignUpError("");
-    console.log(data);
     createUser(data.email,data.password)
     .then((result) => {
         const user = result.user;
         console.log(user);
-        handleEmailVerification();
-        navigate(from, {to:"/"}, { replace: true });
-        toast.success('Please verify your email');
+        // handleEmailVerification();
+        // navigate(from, {to:"/"}, { replace: true });
+        // toast.success('Please verify your email');
+        toast.success('User created');
          const userInfo = {
           displayName: data.name
         };
         updateUser(userInfo)
         .then(() => {
           saveUser(data.name,data.email);
-         
         })
         .catch((error) => {});
       })
@@ -54,7 +52,7 @@ const [signUpError,SetSignUpError] = useState("");
      .then((result) => {
        const user = result.user;
        console.log(user);
-       navigate(from, {to:"/"}, { replace: true });
+      //  navigate(from, {to:"/"}, { replace: true });
      })
      .catch((error) => {
       SetSignUpError(error.message);
@@ -62,15 +60,13 @@ const [signUpError,SetSignUpError] = useState("");
 
 }
 
-const handleEmailVerification = () =>{
-  verifyEmail()
-  .then(() => {});
-
-}
+// const handleEmailVerification = () =>{
+//   verifyEmail()
+//   .then(() => {});
+// }
   const saveUser = (name , email)=>{
     const user = {name,email};
     fetch("http://localhost:5000/users",{
-
         method : "POST",
         headers : {
           'content-type': 'application/json'
@@ -79,10 +75,24 @@ const handleEmailVerification = () =>{
     })
     .then(res => res.json())
     .then(data =>{
+      console.log("save user email",email);
+      // getUserToken(email);
       setCreatedUserEmail(email);
      
     })  
   }
+
+  // const getUserToken = email =>{
+  //   fetch(`http://localhost:5000/jwt?email=${email}`)
+  //   .then(res =>res.json())
+  //   .then(data =>{
+  //     if(data.accessToken){
+  //       localStorage.setItem('accessToken', data.accessToken);
+  //       navigate('/');
+  //     }
+  //   })
+  // }
+  
 
   return (
     <div>
