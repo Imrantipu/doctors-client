@@ -7,6 +7,14 @@ const CheckoutForm = () => {
     const elements = useElements();
     const handleSubmit = async(event) =>{
         event.preventDefault();
+        if (!stripe || !elements) {
+            return
+        }
+
+        const card = elements.getElement(CardElement);
+        if (card == null) {
+            return;
+          }
     }
   return (
     <form onSubmit={handleSubmit}>
