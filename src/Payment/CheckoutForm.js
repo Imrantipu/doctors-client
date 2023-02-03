@@ -1,6 +1,11 @@
+import { CardElement, useStripe } from "@stripe/react-stripe-js";
 import React from "react";
 
 const CheckoutForm = () => {
+    const stripe = useStripe();
+    const handleSubmit = async(event) =>{
+
+    }
   return (
     <form onSubmit={handleSubmit}>
       <CardElement
