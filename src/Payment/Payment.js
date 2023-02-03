@@ -3,10 +3,11 @@ import { useLoaderData } from 'react-router-dom';
 
 const Payment = () => {
     const booking = useLoaderData();
-    console.log("booking data",booking);
+    const { treatment, price, appointmentDate, slot } = booking;
     return (
         <div>
-            <p>this is payment route</p>
+            <h3 className="text-3xl">Payment for {treatment}</h3>
+            <p className="text-xl">Please pay <strong>${price}</strong> for your appointment on {appointmentDate} at {slot}</p>
         </div>
     );
 };
