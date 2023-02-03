@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import Loader from '../../../components/Loader/Loader';
+import ConfirmationModal from '../../Shared/ConfirmationModal';
 
 const ManageDoctors = () => {
     const [deletingDoctor, setDeletingDoctor] = useState(null);
@@ -69,6 +70,9 @@ const ManageDoctors = () => {
             </table>
           </div>
         </div>
+        {
+            deletingDoctor && <ConfirmationModal></ConfirmationModal>
+        }
       </div>
     );
 };
