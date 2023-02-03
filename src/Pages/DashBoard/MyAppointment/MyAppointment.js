@@ -1,29 +1,31 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import Loader from "../../../components/Loader/Loader";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const MyAppointment = () => {
-
-const { user} = useContext(AuthContext);
-const {data :bookings =[], isLoading} = useQuery({
-    queryKey: ['bookings',user?.email],
+  const { user } = useContext(AuthContext);
+  const { data: bookings = [], isLoading } = useQuery({
+    queryKey: ["bookings", user?.email],
     queryFn: async () => {
-     const res= await fetch(`http://localhost:5000/bookings?email=${user?.email}`,{
-      headers: {
-          authorization: `bearer ${localStorage.getItem('accessToken')}`
-      }
-    });
+      const res = await fetch(
+        `http://localhost:5000/bookings?email=${user?.email}`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
       const data = await res.json();
-      return data
-    }
-  })
+      return data;
+    },
+  });
 
-  if(isLoading){
-    return <Loader></Loader>
+  if (isLoading) {
+    return <Loader></Loader>;
   }
-
 
   return (
     <div className="rounded-md ">
@@ -38,21 +40,30 @@ const {data :bookings =[], isLoading} = useQuery({
                 <th>Treatment</th>
                 <th>Appointment Date</th>
                 <th>Time</th>
+                <th>Payment</th>
               </tr>
             </thead>
             <tbody>
-              {
-                bookings?.map((booking,i) =><tr className="hover dark:text-black"
-                key={i}
-                >
-                    <th>{i+1}</th>
-                    <td>{booking.patientName}</td>
-                    <td>{booking.treatment}</td>
-                    <td>{booking.appointmentDate}</td>
-                    <td>{booking.slot}</td>
-                  </tr>)
-              }
+              {bookings?.map((booking, i) => (
+                <tr className="hover dark:text-black" key={i}>
+                  <th>{i + 1}</th>
+                  <td>{booking.patientName}</td>
+                  <td>{booking.treatment}</td>
+                  <td>{booking.appointmentDate}</td>
+                  <td>{booking.slot}</td>
+                  <td>
+                    {booking.price && !booking.paid && (
+                      <Link to={`/dashboard/payment/${booking._id}`}>
+                        <button className="btn btn-primary btn-sm">Pay</button>
+                      </Link>
+                    )}
 
+                    {booking.price && booking.paid && (
+                      <span className="text-green-500">Paid</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

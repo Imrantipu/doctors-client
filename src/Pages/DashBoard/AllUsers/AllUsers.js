@@ -30,7 +30,7 @@ const AllUsers = () => {
     return (
         <div className="rounded-md ">
         <div className="p-12">
-          <h3 className="text-3xl pb-5">My Appointments</h3>
+          <h3 className="text-4xl pb-5">All Users : {users?.length}</h3>
           <div className="overflow-x-auto">
             <table className="table w-full">
               <thead>

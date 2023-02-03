@@ -1,6 +1,6 @@
 import React from "react";
 
-const ConfirmationModal = ({ title, message,  modalData, successAction }) => {
+const ConfirmationModal = ({ title, message,  modalData, successAction,successButtonName}) => {
   return (
     <div>
       <input type="checkbox" id="confirmation-modal" className="modal-toggle" />
@@ -16,8 +16,8 @@ const ConfirmationModal = ({ title, message,  modalData, successAction }) => {
           <div className="modal-action">
             <label 
             onClick={() => successAction(modalData)} 
-            htmlFor="confirmation-modal" className="btn">
-              Yay!
+            htmlFor="confirmation-modal" className="btn btn-warning">
+              {successButtonName}
             </label>
           </div>
         </div>
