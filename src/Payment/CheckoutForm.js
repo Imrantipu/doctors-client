@@ -1,10 +1,12 @@
-import { CardElement, useStripe } from "@stripe/react-stripe-js";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React from "react";
+
 
 const CheckoutForm = () => {
     const stripe = useStripe();
+    const elements = useElements();
     const handleSubmit = async(event) =>{
-
+        event.preventDefault();
     }
   return (
     <form onSubmit={handleSubmit}>
@@ -24,7 +26,7 @@ const CheckoutForm = () => {
           },
         }}
       />
-      <button type="submit" disabled={!stripe}>
+      <button className='btn btn-sm mt-4 btn-primary' type="submit" disabled={!stripe}>
         Pay
       </button>
     </form>
