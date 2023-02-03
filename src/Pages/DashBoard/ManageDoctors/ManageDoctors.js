@@ -24,6 +24,10 @@ const ManageDoctors = () => {
         }
     });
 
+    const handleDeleteDoctor = doctor => {
+        console.log(doctor);
+    }
+
     if (isLoading) {
         return <Loader></Loader>
     }
@@ -71,7 +75,13 @@ const ManageDoctors = () => {
           </div>
         </div>
         {
-            deletingDoctor && <ConfirmationModal></ConfirmationModal>
+            deletingDoctor && <ConfirmationModal
+            title={`Are you sure you want to delete?`}
+                    message={`If you delete ${deletingDoctor.name}. It cannot be undone.`}
+                    successAction = {handleDeleteDoctor}
+                    modalData = {deletingDoctor}
+            
+            ></ConfirmationModal>
         }
       </div>
     );
