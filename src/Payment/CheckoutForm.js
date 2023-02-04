@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 const CheckoutForm = ({ booking }) => {
     const [cardError, setCardError] = useState('');
     const [clientSecret, setClientSecret] = useState("");
+    const [success, setSuccess] = useState('');
+    const [transactionId, setTransactionId] = useState('');
     const stripe = useStripe();
     const elements = useElements();
     const { price,email, patient } = booking;
@@ -44,6 +46,8 @@ const CheckoutForm = ({ booking }) => {
         else {
             setCardError('');
         }
+    //    payment success failed then empty setSuccess state
+        setSuccess('');
         const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
             clientSecret,
             {
@@ -60,6 +64,10 @@ const CheckoutForm = ({ booking }) => {
         if (confirmError) {
             setCardError(confirmError.message);
             return;
+        }
+        if (paymentIntent.status === "succeeded"){
+            setSuccess('Congrats! your payment completed');
+            setTransactionId(paymentIntent.id);
         }
 
     }
@@ -89,6 +97,12 @@ const CheckoutForm = ({ booking }) => {
       </button>
     </form>
     <p className="text-red-500">{cardError}</p>
+    {
+                success && <div>
+                    <p className='text-green-500'>{success}</p>
+                    <p>Your transactionId: <span className='font-bold'>{transactionId}</span></p>
+                </div>
+            }
     </>
   );
 };
