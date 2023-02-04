@@ -6,6 +6,7 @@ const CheckoutForm = ({ booking }) => {
     const [cardError, setCardError] = useState('');
     const [clientSecret, setClientSecret] = useState("");
     const [success, setSuccess] = useState('');
+    const [processing, setProcessing] = useState(false);
     const [transactionId, setTransactionId] = useState('');
     const stripe = useStripe();
     const elements = useElements();
@@ -48,6 +49,8 @@ const CheckoutForm = ({ booking }) => {
         }
     //    payment success failed then empty setSuccess state
         setSuccess('');
+        // to avoid multiple click while transaction processing
+        setProcessing(true);
         const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
             clientSecret,
             {
@@ -69,6 +72,7 @@ const CheckoutForm = ({ booking }) => {
             setSuccess('Congrats! your payment completed');
             setTransactionId(paymentIntent.id);
         }
+        setProcessing(false);
 
     }
   return (
@@ -92,7 +96,7 @@ const CheckoutForm = ({ booking }) => {
       />
       <button className='btn btn-sm mt-4 btn-primary' 
       type="submit" 
-      disabled={!stripe || !clientSecret }>
+      disabled={!stripe || !clientSecret || processing}>
         Pay
       </button>
     </form>
