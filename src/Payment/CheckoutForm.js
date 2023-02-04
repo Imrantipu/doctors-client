@@ -7,10 +7,10 @@ const CheckoutForm = ({ booking }) => {
     const [clientSecret, setClientSecret] = useState("");
     const stripe = useStripe();
     const elements = useElements();
-    const { price } = booking;
+    const { price,email, patient } = booking;
     useEffect(() => {
         // Create PaymentIntent as soon as the page loads
-        fetch("https://doctors-portal-server-rust.vercel.app/create-payment-intent", {
+        fetch("http://localhost:5000/create-payment-intent", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -21,6 +21,7 @@ const CheckoutForm = ({ booking }) => {
             .then((res) => res.json())
             .then((data) => setClientSecret(data.clientSecret));
     }, [price]);
+
     const handleSubmit = async(event) =>{
         event.preventDefault();
         if (!stripe || !elements) {
@@ -43,6 +44,24 @@ const CheckoutForm = ({ booking }) => {
         else {
             setCardError('');
         }
+        const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
+            clientSecret,
+            {
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        name: patient,
+                        email: email
+                    },
+                },
+            },
+        );
+
+        if (confirmError) {
+            setCardError(confirmError.message);
+            return;
+        }
+
     }
   return (
     <>
