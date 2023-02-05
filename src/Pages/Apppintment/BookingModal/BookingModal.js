@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { format } from "date-fns";
 import { AuthContext } from "../../../contexts/AuthProvider";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 
-const BookingModal = ({ treatment, selectedDat,setTreatment,refetch}) => {
+const BookingModal = ({ treatment, selectedDat, setTreatment, refetch }) => {
   const date = format(selectedDat, "PP");
-  const { name: treatmentName, slots ,price} = treatment;
+  const { name: treatmentName, slots, price } = treatment;
 
   const { user } = useContext(AuthContext);
   const handleSubmit = (event) => {
@@ -23,30 +23,27 @@ const BookingModal = ({ treatment, selectedDat,setTreatment,refetch}) => {
       slot,
       phone,
       email,
-      price
-    }
+      price,
+    };
 
-    fetch('http://localhost:5000/bookings', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(booking)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if (data.acknowledged) {
-                    setTreatment(null);
-                    toast.success('Booking confirmed');
-                    refetch();
-                  
-                }
-                else{
-                    toast.error(data.message);
-                }
-            })
-
+    fetch("https://doctor-server-psi.vercel.app/bookings", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(booking),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.acknowledged) {
+          setTreatment(null);
+          toast.success("Booking confirmed");
+          refetch();
+        } else {
+          toast.error(data.message);
+        }
+      });
   };
   return (
     <div>

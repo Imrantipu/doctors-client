@@ -8,18 +8,24 @@ import Loader from "../../../components/Loader/Loader";
 const AvailableAppoinments = ({ selectedDate }) => {
   const [treatment, setTreatment] = useState(null);
 
-  const date = format(selectedDate,'PP');
-  const {data :appointmentOptions =[], isLoading,refetch } = useQuery({
-    queryKey: ['appointmentOptions',date],
+  const date = format(selectedDate, "PP");
+  const {
+    data: appointmentOptions = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["appointmentOptions", date],
     queryFn: async () => {
-     const res= await fetch(`http://localhost:5000/appointmentOptions?date=${date}`);
+      const res = await fetch(
+        `https://doctor-server-psi.vercel.app/appointmentOptions?date=${date}`
+      );
       const data = await res.json();
-      return data
-    }
-  })
+      return data;
+    },
+  });
 
-  if(isLoading){
-    return <Loader></Loader>
+  if (isLoading) {
+    return <Loader></Loader>;
   }
   return (
     <section className="mt-10">
@@ -39,7 +45,7 @@ const AvailableAppoinments = ({ selectedDate }) => {
       {treatment && (
         <BookingModal
           treatment={treatment}
-          refetch = {refetch}
+          refetch={refetch}
           selectedDat={selectedDate}
           setTreatment={setTreatment}
         ></BookingModal>
