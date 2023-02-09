@@ -11,7 +11,7 @@ const MyAppointment = () => {
     queryKey: ["bookings", user?.email],
     queryFn: async () => {
       const res = await fetch(
-        `https://doctor-server-psi.vercel.app/bookings?email=${user?.email}`,
+        `http://localhost:5000/bookings?email=${user?.email}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem("accessToken")}`,
