@@ -12,7 +12,7 @@ const Banner = () => {
     <div>
       <h1 className="text-5xl font-bold">YOUR NEW SMILE STARTS HERE</h1>
       <p className="py-6">Innovative and scientifically substantiated treatment with a feel-good factor, that’s the concept we want to use to offer our patients high quality dental treatment in a pleasant, anxiety-free environment.</p>
-      <PrimaryButton><Link to= "/login"> Get Started</Link></PrimaryButton>
+      <PrimaryButton><Link to= "/appointment"> Get Started</Link></PrimaryButton>
     </div>
   </div>
 </div>
